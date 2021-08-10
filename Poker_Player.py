@@ -7,7 +7,7 @@
 import Deck
 
 class Poker_Player:
-# credit need to change to the min buy-in of the table or the amount the player want 'till max table buy-in
+# credit need to change to the minimum buy-in of the table or the amount the player want 'till max table buy-in
 
     def __init__(self, nick ,buy_in):
         self.credit = buy_in
