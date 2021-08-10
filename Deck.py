@@ -2,16 +2,18 @@
 #   4 types of shapes: Spade, Heart, Diamond & Club
 #   13 types of symbols: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King
 
-import itertools
+from itertools import product
 import random
+from constants import *
+
 
 class Deck:
     deck = list()
 
     def __init__(self):
-        deck = self.deck.extend(list((itertools.product(range(2, 10), ['Spade', 'Heart', 'Diamond', 'Club']))))
+        deck = self.deck.extend(list((product(range(2, 10), ['Spade', 'Heart', 'Diamond', 'Club']))))
         deck = self.deck.extend(
-            list((itertools.product(["Ace" ,"Jack", "Queen", "King"], ['Spade', 'Heart', 'Diamond', 'Club']))))
+            list((product(["Ace", "Jack", "Queen", "King"], ['Spade', 'Heart', 'Diamond', 'Club']))))
 
     def shuffle_deck(self):
         random.shuffle(self.deck)

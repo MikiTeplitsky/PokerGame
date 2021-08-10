@@ -1,5 +1,5 @@
 # Constants list
-
+# winning values
 POKER = 1000
 STRAIGHT_FLUSH = 900
 FOUR_OF_A_KIND = 800
@@ -9,3 +9,9 @@ STRAIGHT = 500
 THREE_OF_A_KIND = 400
 TWO_PAIR = 300
 ONE_PAIR = 200
+
+# cards values
+ACE = 14
+KING = 13
+QUEEN = 12
+JACK = 11

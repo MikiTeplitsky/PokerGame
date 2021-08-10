@@ -4,7 +4,8 @@
 #   1. Hand
 #   2. credit
 
-import Deck
+from Deck import *
+from constants import *
 
 class Poker_Player:
 # credit need to change to the minimum buy-in of the table or the amount the player want 'till max table buy-in
