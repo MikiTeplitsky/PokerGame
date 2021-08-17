@@ -17,7 +17,7 @@ class Poker_Player:
         self.name = nick
 
     def reset_hand(self):
-        hand = list()
+        self.hand = list()
 
     def get_card(self, deck):
         self.hand.extend(deck.deal_card())

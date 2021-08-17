@@ -3,14 +3,15 @@
 #
 
 import Poker_Player
-import Deck
+from Deck import *
+
 
 class Poker_Table:
     # player list is by the seating of the players and will help us to know who goes next
     # or where to "put" the new player in the queue of BB/SB
 
     def __init__(self):
-        self.deck = Deck.Deck()
+        self.deck = Deck()
         # should change by the table max player by request from server
         self.max_num_of_players = 5
         self.deck = self.deck.shuffle_deck()
@@ -18,7 +19,6 @@ class Poker_Table:
         for i in range(0, self.max_num_of_players):
             self.player_list[i] = None
         print(self.player_list)
-
 
     def new_game(self):
         self.deck.reset_deck()
