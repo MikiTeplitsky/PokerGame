@@ -18,33 +18,65 @@ class Poker_Game:
         self.pot = 0
 
     def calculate_hand(self, player):
-        # find functions
+        hand = list()
         best_choice = 0
-        result = 0
+
+        # all cards
         all_cards = self.table_cards
         all_cards.extend(player.get_cards())
-        # need to sort but list sorted is not applied
-        # sort_cards_by_value(all_cards)
+
+        # sort by value
+        all_cards.sort(reverse=True)
 
         # check pair in hands
         # pairs from the table
-        pairs_1 = self.find_pairs(player, self.table_cards, player.get_cards()[0][0])
-        pairs_2 = self.find_pairs(player, self.table_cards, player.get_cards()[0][0])
-        # if a better pair was found
-        if (pairs_1 == ONE_PAIR and pairs_2 == THREE_OF_A_KIND) \
-                or (pairs_2 == ONE_PAIR and pairs_1 == THREE_OF_A_KIND):
-            best_choice = FULL_HOUSE
+        pairs_1 = self.find_one_pair(player, self.table_cards, player.get_cards()[0][0])
+        pairs_2 = self.find_one_pair(player, self.table_cards, player.get_cards()[1][0])
+
+        # finds straight
+        straight, hand_straight = self.find_straight()
+
+        # finds flush
+        flush, hand_flush = self.find_flush()
+
+        # one pair
         if pairs_1 > best_choice:
             best_choice = pairs_1
         if pairs_2 > best_choice:
             best_choice = pairs_2
-        # fins straight, flush, straight flush and royal straight flush
-        straight = self.find_straight()
-        flush = self.find_flush()
-        # result = self.sum_of_cards(player.get_cards()) + best_choice
-        return result
 
-    # def sort_cards_by_value(self, cards):
+        # 2 pairs
+        if (pairs_1 == pairs_2) and player.get_cards()[0][0] != player.get_cards()[1][0]:
+            best_choice = TWO_PAIR
+            hand = self.find_hand_for_two_pairs()
+
+        # full house
+        if (pairs_1 == ONE_PAIR and pairs_2 == THREE_OF_A_KIND) \
+                or (pairs_2 == ONE_PAIR and pairs_1 == THREE_OF_A_KIND):
+            best_choice = FULL_HOUSE
+            hand = self.find_hand_for_full_house()
+
+        # flush or straight
+        if flush != 0 or straight != 0:
+            # straight + flush
+            if flush != 0 and straight != 0:
+                # royal straight flush
+                if hand[0] == 14:
+                    best_choice = POKER
+                else:
+                    # straight flush
+                    best_choice = STRAIGHT_FLUSH
+            # flush
+            elif best_choice < flush:
+                best_choice = FLUSH
+                hand = hand_flush
+
+            # straight
+            elif best_choice < STRAIGHT:
+                best_choice = STRAIGHT
+                hand = hand_straight
+
+        return self.sum_of_cards(hand) + best_choice
 
     # sum the values of the cards - working
     def sum_of_cards(self, player_cards):
@@ -54,8 +86,8 @@ class Poker_Game:
         return sum_cards
 
     # Let's find by the symbols of the cards
-    def find_pairs(self, player, table_cards, card_number):
-        player_card = player.get_cards()[card_numb]
+    def find_one_pair(self, player, table_cards, card_number):
+        player_card = player.get_cards()[card_number]
         value = 0
         count = 0
         for card in table_cards:
@@ -69,11 +101,46 @@ class Poker_Game:
             value = FOUR_OF_A_KIND
         return value
 
+    # find a straight and returns if found + the cards for the straight
     def find_straight(self):
 
         return 0
 
-    # Let's find by the shapes of the cards
+    # find a flush and returns if found + the cards for flush
     def find_flush(self):
 
         return 0
+
+    # cards are sorted
+    def find_hand_for_full_house(self, all_cards):
+        # init
+        hand = list()
+        # looking through all the cards
+        for i in range(0, 7):
+            # finding a pair or a 3 of a kind
+            if all_cards[i][0] == all_cards[i + 1][0]:
+                hand.extend([all_cards[i], all_cards[i + 1]])
+                # trying to look if its the 3 of a kind
+                if i != 6 and all_cards[i] == all_cards[i + 2]:
+                    hand.extend(all_cards[i + 2])
+        return hand
+
+    # cards are sorted
+    def find_hand_for_two_pairs(self, all_cards):
+        # init
+        hand = list()
+        pair = 0
+        # looking through all the cards
+        for i in range(0, 7):
+            # finding a pair (highest first)
+            if all_cards[i][0] == all_cards[i + 1][0]:
+                hand.extend([all_cards[i], all_cards[i + 1]])
+                pair += 1
+                i += 2
+            # if still haven't found a pair, we found our high card
+            if pair == 0:
+                hand.extend(all_cards[i])
+            # after we found our 5 cards, we can finish
+            if len(hand) == 5:
+                i = 7
+        return hand

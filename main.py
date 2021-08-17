@@ -38,6 +38,6 @@ if __name__ == '__main__':
     #     else: print(poker.player_list[i].get_name())
     p1.hand.sort(reverse=True)
     print(p1.hand)
-
-
+    print(p1.hand.__getitem__(0)[0])
+    hand = list()
 
