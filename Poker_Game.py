@@ -61,11 +61,13 @@ class Poker_Game:
             # straight + flush
             if flush != 0 and straight != 0:
                 # royal straight flush
+                # need to check if its the same cards
                 if hand[0] == 14:
                     best_choice = POKER
                 else:
                     # straight flush
                     best_choice = STRAIGHT_FLUSH
+                    hand = self.find_hand_for_straight_flush()
             # flush
             elif best_choice < flush:
                 best_choice = FLUSH
@@ -144,3 +146,7 @@ class Poker_Game:
             if len(hand) == 5:
                 i = 7
         return hand
+
+    def find_hand_for_straight_flush(self, all_cards):
+
+        pass
