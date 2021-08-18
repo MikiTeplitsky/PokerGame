@@ -28,33 +28,35 @@ class Poker_Game:
         # sort by value
         all_cards.sort(reverse=True)
 
-        # check pair in hands
-        # pairs from the table
-        pairs_1 = self.find_one_pair(player, self.table_cards, player.get_cards()[0][0])
-        pairs_2 = self.find_one_pair(player, self.table_cards, player.get_cards()[1][0])
+        # check pairs and three/four of a kind
+        count_pairs = 0
+        kinds = 0
+        for i in range(0, 7):
+            if all_cards[i][0] == all_cards[i+1][0]:
+                count_pairs += 1
+                if i != 4 and all_cards[i+2][0] == all_cards[i][0]:
+                    kinds = 3
+                    if i != 3 and all_cards[i+3][0] == all_cards[i][0]:
+                        kinds = 4
+
+        if kinds == 3:
+            if count_pairs > 1:
+                best_choice = FULL_HOUSE
+                hand = self.find_hand_for_full_house(all_cards)
+            else:
+                best_choice = THREE_OF_A_KIND
+                hand = self.find_hand_for_three_of_a_kind(all_cards)
+
+        elif kinds == 4:
+            best_choice = FOUR_OF_A_KIND
+            hand = self.find_hand_for_four_of_a_kind(all_cards)
+
 
         # finds straight
-        straight, hand_straight = self.find_straight()
+        straight, hand_straight = self.find_straight(all_cards)
 
         # finds flush
         flush, hand_flush = self.find_flush()
-
-        # one pair
-        if pairs_1 > best_choice:
-            best_choice = pairs_1
-        if pairs_2 > best_choice:
-            best_choice = pairs_2
-
-        # 2 pairs
-        if (pairs_1 == pairs_2) and player.get_cards()[0][0] != player.get_cards()[1][0]:
-            best_choice = TWO_PAIR
-            hand = self.find_hand_for_two_pairs()
-
-        # full house
-        if (pairs_1 == ONE_PAIR and pairs_2 == THREE_OF_A_KIND) \
-                or (pairs_2 == ONE_PAIR and pairs_1 == THREE_OF_A_KIND):
-            best_choice = FULL_HOUSE
-            hand = self.find_hand_for_full_house()
 
         # flush or straight
         if flush != 0 or straight != 0:
