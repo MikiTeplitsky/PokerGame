@@ -12,13 +12,14 @@ class Poker_Table:
 
     def __init__(self):
         self.deck = Deck()
+        self.deck = self.deck.shuffle_deck()
+
         # should change by the table max player by request from server
         self.max_num_of_players = 5
-        self.deck = self.deck.shuffle_deck()
         self.player_list = dict()
         for i in range(0, self.max_num_of_players):
             self.player_list[i] = None
-        print(self.player_list)
+        # print(self.player_list)
 
     def new_game(self):
         self.deck.reset_deck()

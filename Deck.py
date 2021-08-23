@@ -32,3 +32,4 @@ class Deck:
     def reset_deck(self):
         del self.deck
         self.deck = Deck()
+        self.deck.shuffle_deck()
