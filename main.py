@@ -24,8 +24,11 @@ if __name__ == '__main__':
         hand.append(deck.deal_card())
     p1.hand = hand
     # print(p1.hand)
-    # p1.hand.sort(reverse=True)
-    # print(p1.hand)
+    p1.hand.sort(reverse=True)
+    print(p1.hand)
+    print(p1.hand[0:5])
+    # x = list(dict(p1.hand).keys())
+    # print(x[0])
     # p1.hand.sort(key=lambda x:x[1][1])
     # print(p1.hand)
     # print(type(p1.hand[0][0]))
@@ -36,8 +39,8 @@ if __name__ == '__main__':
     #     if poker.player_list[i] is None:
     #         print(poker.player_list[i])
     #     else: print(poker.player_list[i].get_name())
-    p1.hand.sort(reverse=True)
-    print(p1.hand)
-    print(p1.hand.__getitem__(0)[0])
-    hand = list()
+    # p1.hand.sort(reverse=True)
+    # print(p1.hand)
+    # print(p1.hand.__getitem__(0)[0])
+    # hand = list()
 
